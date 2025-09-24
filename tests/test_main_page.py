@@ -1,9 +1,11 @@
 from pages.main_page import MainPage
 from pages.login_page import LoginPage
+from pages.basket_page import BasketPage
+
+url = "http://selenium1py.pythonanywhere.com/"
 
 
 def test_guest_can_go_to_login_page(driver):
-    url = "http://selenium1py.pythonanywhere.com/"
     page = MainPage(driver, url)
     page.open()
     page.go_to_login_page()
@@ -12,7 +14,15 @@ def test_guest_can_go_to_login_page(driver):
 
 
 def test_guest_should_see_login_link(driver):
-    url = "http://selenium1py.pythonanywhere.com"
     page = MainPage(driver, url)
     page.open()
     assert page.should_be_login_link(), "Login link is not presented"
+
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(driver):
+    page = MainPage(driver, url)
+    page.open()
+    page.go_to_basket()
+    basket_page = BasketPage(driver, driver.current_url)
+    basket_page.product_is_not_in_basket()
+    basket_page.is_basket_empty()
