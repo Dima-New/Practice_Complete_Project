@@ -1,5 +1,7 @@
 import pytest
+import time
 
+from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 from pages.basket_page import BasketPage
 
@@ -78,3 +80,31 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(driver):
     basket_page = BasketPage(driver, driver.current_url)
     basket_page.product_is_not_in_basket()
     basket_page.is_basket_empty()
+
+
+@pytest.mark.user_add_product_to_basket
+class TestUserAddToBasketFromProductPage:
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, driver):
+        url = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        registration = LoginPage(driver, url)
+        registration.open()
+        registration.register_new_user(
+            email=str(time.time()) + "test@mail.com", password="test12345$"
+        )
+        registration.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, driver):
+        url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        product_page = ProductPage(driver, url)
+        product_page.open()
+        product_page.should_not_be_success_message()
+
+    def test_guest_can_add_product_to_basket(self, driver):
+        url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        product = ProductPage(driver, url)
+        product.open()
+        product.add_to_basket()
+        product.check_product_name_in_message()
+        product.check_product_price_in_basket()
