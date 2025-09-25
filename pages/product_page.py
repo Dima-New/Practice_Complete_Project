@@ -12,8 +12,8 @@ class ProductPage(BasePage):
 
     def check_product_name_in_message(self):
         product_name = self.driver.find_element(*ProductPageLocators.PRODUCT_NAME)
-        messsage = self.driver.find_element(*ProductPageLocators.SUCCESS_NAME)
-        assert product_name.text == messsage.text, "product_name is not in message"
+        message = self.driver.find_element(*ProductPageLocators.SUCCESS_NAME)
+        assert product_name.text == message.text, "product_name is not in message"
 
     def check_product_price_in_basket(self):
         price = self.driver.find_element(*ProductPageLocators.PRICE)
