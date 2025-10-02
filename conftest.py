@@ -16,6 +16,7 @@ def driver(request):
     user_language = request.config.getoption("--language")
     options = Options()
     options.add_experimental_option("prefs", {"intl.accept_languages": user_language})
+    options.add_argument("--start-maximized")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     if request.cls is not None:  # check if tests in class or not

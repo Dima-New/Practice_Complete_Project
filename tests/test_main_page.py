@@ -9,7 +9,7 @@ url = "http://selenium1py.pythonanywhere.com/"
 
 @pytest.mark.login_link
 class TestLoginInHeader(object):
-    def test_guest_can_go_to_login_page(sef, driver):
+    def test_guest_can_go_to_login_page(self, driver):
         page = MainPage(driver, url)
         page.open()
         page.go_to_login_page()
